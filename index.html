@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="SRIVORATECH TRAVELS — Book bus tickets online across India. Live tracking, best prices, premium operators.">
+  <title>SRIVORATECH TRAVELS — Premium Bus Booking</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ═══ Fixed Background Canvas (bus frames) ═══ -->
+  <canvas id="scrollCanvas"></canvas>
+  <div class="bg-tint"></div>
+
+  <!-- ═══ Toast Container ═══ -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- ═══ Navigation ═══ -->
+  <nav class="nav" id="mainNav">
+    <a href="#hero" class="nav-logo">
+      <div class="nav-logo-icon">🚌</div>
+      <span>SRIVORATECH</span>
+    </a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#booking">Book</a></li>
+      <li><a href="#routes">Routes</a></li>
+      <li><a href="#tracking">Track Bus</a></li>
+      <li><a href="#contact">Contact</a></li>
+      <li><a href="#booking" class="nav-cta">Book Now</a></li>
+    </ul>
+    <button class="nav-mobile-toggle" onclick="toggleMobileNav()">☰</button>
+  </nav>
+
+  <!-- ═══ Hero Section ═══ -->
+  <section id="hero">
+    <div class="hero-center">
+      <h1 class="hero-title">Travel Smarter with <span class="highlight">SRIVORATECH</span></h1>
+      <p class="hero-subtitle">Book from 10,000+ routes across India with live tracking, best prices, and premium operators</p>
+      <a href="#booking" class="hero-cta">🎫 Book Your Journey</a>
+    </div>
+    <div class="hero-scroll-hint">
+      <span>Scroll to explore</span>
+      <div class="arrow"></div>
+    </div>
+  </section>
+
+  <!-- ═══ Page Content (all over bus frame background) ═══ -->
+  <div class="page-content">
+
+    <!-- ── Book Section ── -->
+    <section class="section" id="booking">
+      <div class="section-glass">
+        <div class="section-header reveal">
+          <div class="section-badge">🎫 Book Your Journey</div>
+          <h1 class="section-title">Find & Book <span class="highlight">Bus Tickets</span></h1>
+          <p class="section-subtitle">Search thousands of bus routes across India with guaranteed lowest fares and instant confirmation</p>
+        </div>
+
+        <div class="booking-card reveal">
+          <div class="booking-form" id="bookingForm">
+            <div class="form-group">
+              <label for="from">From</label>
+              <select id="from">
+                <option value="">Select City</option>
+                <option value="Hyderabad">Hyderabad</option>
+                <option value="Bangalore">Bangalore</option>
+                <option value="Chennai">Chennai</option>
+                <option value="Mumbai">Mumbai</option>
+                <option value="Delhi">Delhi</option>
+                <option value="Pune">Pune</option>
+                <option value="Kolkata">Kolkata</option>
+                <option value="Ahmedabad">Ahmedabad</option>
+                <option value="Jaipur">Jaipur</option>
+                <option value="Goa">Goa</option>
+                <option value="Vizag">Vizag</option>
+                <option value="Vijayawada">Vijayawada</option>
+                <option value="Tirupati">Tirupati</option>
+                <option value="Mysore">Mysore</option>
+                <option value="Coimbatore">Coimbatore</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="to">To</label>
+              <select id="to">
+                <option value="">Select City</option>
+                <option value="Hyderabad">Hyderabad</option>
+                <option value="Bangalore">Bangalore</option>
+                <option value="Chennai">Chennai</option>
+                <option value="Mumbai">Mumbai</option>
+                <option value="Delhi">Delhi</option>
+                <option value="Pune">Pune</option>
+                <option value="Kolkata">Kolkata</option>
+                <option value="Ahmedabad">Ahmedabad</option>
+                <option value="Jaipur">Jaipur</option>
+                <option value="Goa">Goa</option>
+                <option value="Vizag">Vizag</option>
+                <option value="Vijayawada">Vijayawada</option>
+                <option value="Tirupati">Tirupati</option>
+                <option value="Mysore">Mysore</option>
+                <option value="Coimbatore">Coimbatore</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="date">Travel Date</label>
+              <input type="date" id="date">
+            </div>
+            <div class="form-group">
+              <label for="passengers">Passengers</label>
+              <select id="passengers">
+                <option value="1">1 Passenger</option>
+                <option value="2">2 Passengers</option>
+                <option value="3">3 Passengers</option>
+                <option value="4">4 Passengers</option>
+                <option value="5">5 Passengers</option>
+                <option value="6">6 Passengers</option>
+              </select>
+            </div>
+            <button class="btn-primary" onclick="searchBuses()" id="searchBtn">🔍 Search Buses</button>
+          </div>
+        </div>
+
+        <!-- Search Results -->
+        <div id="results">
+          <div class="section-header" id="resultsHeader" style="margin-top:48px"></div>
+          <div class="bus-list" id="busList"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Popular Routes ── -->
+    <section class="section" id="routes">
+      <div class="section-glass">
+        <div class="section-header reveal">
+          <div class="section-badge">🗺️ Popular Routes</div>
+          <h2 class="section-title">Trending <span class="highlight">Bus Routes</span></h2>
+          <p class="section-subtitle">Most booked routes this month — tap any route to search for available buses</p>
+        </div>
+        <div class="routes-grid" id="routesGrid"></div>
+      </div>
+    </section>
+
+    <!-- ── Live Tracking ── -->
+    <section class="section" id="tracking">
+      <div class="section-glass">
+        <div class="section-header reveal">
+          <div class="section-badge">📍 Live Tracking</div>
+          <h2 class="section-title">Track Your <span class="highlight">Bus Live</span></h2>
+          <p class="section-subtitle">Enter your PNR number or Booking ID to see real-time bus location and ETA</p>
+        </div>
+
+        <div class="tracking-search reveal">
+          <input type="text" id="trackingInput" placeholder="Enter PNR or Booking ID (e.g., BT7X3KM9)" value="BT7X3KM9">
+          <button class="btn-primary" onclick="trackBus()">📍 Track Now</button>
+        </div>
+
+        <div class="tracking-panel" id="trackingPanel">
+          <div class="tracking-grid">
+            <div class="tracking-map reveal">
+              <h3 style="margin-bottom:24px;font-size:1.1rem;font-weight:700">
+                🚌 Hyderabad → Bangalore
+                <span style="display:block;font-size:0.82rem;font-weight:400;color:var(--text-secondary);margin-top:4px">
+                  Royal Travels — Volvo Multi-Axle AC Sleeper
+                </span>
+              </h3>
+              <div class="route-visual">
+                <div class="route-line"></div>
+                <div class="route-progress-line" id="routeProgressLine"></div>
+                <div id="routeStops"></div>
+              </div>
+            </div>
+            <div class="tracking-details reveal">
+              <div class="tracking-stat-card"><div class="tracking-stat-icon status">🟢</div><div class="tracking-stat-info"><div class="tracking-stat-label">Status</div><div class="tracking-stat-value" id="trackStatus" style="color:var(--success)">—</div></div></div>
+              <div class="tracking-stat-card"><div class="tracking-stat-icon location">📍</div><div class="tracking-stat-info"><div class="tracking-stat-label">Current Location</div><div class="tracking-stat-value" id="trackLocation">—</div></div></div>
+              <div class="tracking-stat-card"><div class="tracking-stat-icon speed">🏎️</div><div class="tracking-stat-info"><div class="tracking-stat-label">Speed</div><div class="tracking-stat-value" id="trackSpeed">—</div></div></div>
+              <div class="tracking-stat-card"><div class="tracking-stat-icon eta">⏰</div><div class="tracking-stat-info"><div class="tracking-stat-label">Estimated Arrival</div><div class="tracking-stat-value" id="trackETA" style="color:var(--accent-primary)">—</div></div></div>
+              <div class="tracking-stat-card"><div class="tracking-stat-icon distance">📏</div><div class="tracking-stat-info"><div class="tracking-stat-label">Distance Covered</div><div class="tracking-stat-value" id="trackDistance">—</div></div></div>
+              <div class="tracking-stat-card"><div class="tracking-stat-icon next-stop">🏁</div><div class="tracking-stat-info"><div class="tracking-stat-label">Next Stop</div><div class="tracking-stat-value" id="trackNextStop">—</div></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+
+    <!-- ── Contact ── -->
+    <section class="section" id="contact">
+      <div class="section-glass">
+        <div class="section-header reveal">
+          <div class="section-badge">📞 Get In Touch</div>
+          <h2 class="section-title">Contact <span class="highlight">Us</span></h2>
+          <p class="section-subtitle">Have a question or need help with your booking? We're here 24/7</p>
+        </div>
+        <div class="contact-grid">
+          <form class="contact-form reveal" id="contactForm">
+            <div class="form-row">
+              <input type="text" id="contactName" placeholder="Your Name *" required>
+              <input type="email" id="contactEmail" placeholder="Email Address *" required>
+            </div>
+            <div class="form-row">
+              <input type="tel" id="contactPhone" placeholder="Phone Number">
+              <input type="text" id="contactSubject" placeholder="Subject">
+            </div>
+            <textarea id="contactMessage" placeholder="Your Message *" required></textarea>
+            <button class="btn-primary" type="submit" style="width:fit-content">✉️ Send Message</button>
+          </form>
+          <div class="contact-info reveal">
+            <div class="contact-info-card"><div class="contact-info-icon">📞</div><div class="contact-info-text"><h4>Phone Support</h4><p>+91 1800-XXX-XXXX (Toll Free)<br>Available 24/7</p></div></div>
+            <div class="contact-info-card"><div class="contact-info-icon">✉️</div><div class="contact-info-text"><h4>Email Us</h4><p>support@srivoratech.in<br>bookings@srivoratech.in</p></div></div>
+            <div class="contact-info-card"><div class="contact-info-icon">🏢</div><div class="contact-info-text"><h4>Head Office</h4><p>SRIVORATECH TRAVELS Pvt Ltd<br>Cyber Towers, HITEC City,<br>Hyderabad — 500081</p></div></div>
+            <div class="contact-info-card"><div class="contact-info-icon">⏰</div><div class="contact-info-text"><h4>Business Hours</h4><p>Customer Support: 24/7<br>Office: Mon–Sat, 9 AM – 6 PM IST</p></div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ Footer ═══ -->
+    <footer class="footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="#hero" class="nav-logo" style="margin-bottom:8px"><div class="nav-logo-icon">🚌</div><span>SRIVORATECH</span></a>
+          <p>India's most trusted bus booking platform by SRIVORATECH TRAVELS. Book from 10,000+ routes, 2,500+ operators with guaranteed lowest fares and live tracking.</p>
+          <div class="footer-socials">
+            <a href="#" class="footer-social">𝕏</a>
+            <a href="#" class="footer-social">📘</a>
+            <a href="#" class="footer-social">📸</a>
+            <a href="#" class="footer-social">▶️</a>
+          </div>
+        </div>
+        <div class="footer-col"><h4>Company</h4><ul><li><a href="#">About Us</a></li><li><a href="#">Careers</a></li><li><a href="#">Press</a></li><li><a href="#">Blog</a></li><li><a href="#">Partners</a></li></ul></div>
+        <div class="footer-col"><h4>Support</h4><ul><li><a href="#">Help Center</a></li><li><a href="#">Cancel Ticket</a></li><li><a href="#">Refund Status</a></li><li><a href="#">Report Issue</a></li><li><a href="#">FAQs</a></li></ul></div>
+        <div class="footer-col"><h4>Legal</h4><ul><li><a href="#">Terms of Service</a></li><li><a href="#">Privacy Policy</a></li><li><a href="#">Refund Policy</a></li><li><a href="#">Cookie Policy</a></li><li><a href="#">Disclaimer</a></li></ul></div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 SRIVORATECH TRAVELS Pvt Ltd. All rights reserved.</span>
+        <span>Made with ❤️ in India</span>
+      </div>
+    </footer>
+  </div>
+
+  <!-- ═══ Seat Selection Modal ═══ -->
+  <div class="modal-overlay" id="seatModal">
+    <div class="modal">
+      <div class="modal-header"><h2>Select Seats</h2><button class="modal-close" onclick="closeSeatModal()">✕</button></div>
+      <div class="modal-body">
+        <div class="seat-legend">
+          <div class="seat-legend-item"><div class="seat-legend-color available"></div><span>Available</span></div>
+          <div class="seat-legend-item"><div class="seat-legend-color selected"></div><span>Selected</span></div>
+          <div class="seat-legend-item"><div class="seat-legend-color booked"></div><span>Booked</span></div>
+        </div>
+        <div class="seat-layout" id="seatGrid"></div>
+      </div>
+      <div class="modal-footer">
+        <div class="selected-info" id="seatSelectedInfo">No seats selected</div>
+        <button class="btn-primary" id="proceedBooking" onclick="proceedToBooking()" disabled style="opacity:0.5">Proceed to Book →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ Booking Confirmation Modal ═══ -->
+  <div class="modal-overlay" id="confirmModal">
+    <div class="modal">
+      <div class="modal-header"><h2>Booking Confirmation</h2><button class="modal-close" onclick="closeConfirmModal()">✕</button></div>
+      <div class="modal-body"></div>
+      <div class="modal-footer" style="justify-content:center"><button class="btn-primary" onclick="closeConfirmModal()">Done</button></div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
