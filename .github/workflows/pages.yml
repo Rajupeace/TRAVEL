@@ -16,6 +16,14 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Debug: show repository files
+        run: |
+          echo "Working directory: $(pwd)"
+          echo "Git status:"; git status --porcelain=2 --branch || true
+          echo "List top-level files:"; ls -la || true
+          echo "Count files:"; find . | wc -l || true
+          echo "Show index.html head if present:"; if [ -f index.html ]; then head -n 20 index.html; else echo "index.html not found"; fi
+
       - name: Configure Pages
         uses: actions/configure-pages@v3
 
